@@ -7,8 +7,10 @@
 const html = document.documentElement;
 const toggleBtn = document.getElementById('themeToggle');
 
-// Load saved theme
-const savedTheme = localStorage.getItem('theme') || 'light';
+// Load saved theme — fall back to time-based default (dark 21:00–08:00)
+const hour = new Date().getHours();
+const timeDefault = (hour >= 21 || hour < 8) ? 'dark' : 'light';
+const savedTheme = localStorage.getItem('theme') || timeDefault;
 html.setAttribute('data-theme', savedTheme);
 
 toggleBtn.addEventListener('click', () => {
