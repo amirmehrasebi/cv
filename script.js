@@ -1,79 +1,294 @@
-// ==============================
-// AMIR MEHRASEBI — Portfolio JS
-// Theme Toggle + Scroll Reveal
-// ==============================
+gsap.registerPlugin(ScrollTrigger);
 
-// --- THEME TOGGLE ---
-const html = document.documentElement;
-const toggleBtn = document.getElementById("themeToggle");
+// ── LENIS SMOOTH SCROLL ──
+const lenis = new Lenis({ lerp: 0.12, smoothWheel: true });
+lenis.on("scroll", ScrollTrigger.update);
+gsap.ticker.add((time) => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
 
-// Load saved theme — fall back to time-based default (dark 21:00–08:00)
-const hour = new Date().getHours();
-const timeDefault = hour >= 21 || hour < 8 ? "dark" : "light";
-const savedTheme = localStorage.getItem("theme") || timeDefault;
-html.setAttribute("data-theme", savedTheme);
-
-toggleBtn.addEventListener("click", () => {
-  const current = html.getAttribute("data-theme");
-  const next = current === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
+ScrollTrigger.create({
+  trigger: "#hWrap",
+  start: "top top",
+  end: "bottom bottom",
+  onEnter: () => lenis.stop(),
+  onLeave: () => lenis.start(),
+  onEnterBack: () => lenis.stop(),
+  onLeaveBack: () => lenis.start(),
 });
 
-// --- SCROLL REVEAL ---
-const revealElements = document.querySelectorAll(
-  ".tl-item, .skill-block, .stat-card, .portfolio-card, .contact-item, .about-text, .about-stats, .lang-section",
-);
-
-revealElements.forEach((el) => el.classList.add("reveal"));
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        // Stagger effect
-        setTimeout(
-          () => {
-            entry.target.classList.add("visible");
-          },
-          80 * (Array.from(revealElements).indexOf(entry.target) % 6),
-        );
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
-);
-
-revealElements.forEach((el) => observer.observe(el));
-
-// --- ACTIVE NAV LINK ---
-const sections = document.querySelectorAll("section[id]");
-const navLinks = document.querySelectorAll(".nav-links a");
-
-const navObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.getAttribute("id");
-        navLinks.forEach((link) => {
-          link.style.color =
-            link.getAttribute("href") === `#${id}` ? "var(--accent)" : "";
-        });
-      }
-    });
-  },
-  { threshold: 0.4 },
-);
-
-sections.forEach((s) => navObserver.observe(s));
-
-// --- NAV SCROLL SHADOW ---
-const nav = document.querySelector(".nav");
+// ── NAV ──
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 60) {
-    nav.style.boxShadow = "0 2px 20px rgba(0,0,0,0.2)";
-  } else {
-    nav.style.boxShadow = "none";
+  document
+    .getElementById("nav")
+    .classList.toggle("scrolled", window.scrollY > 60);
+});
+
+// ── HERO BG ZOOM ──
+gsap.to("#heroBg", {
+  scale: 1,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".hero",
+    start: "top top",
+    end: "bottom top",
+    scrub: true,
+  },
+});
+
+// ── HERO CONTENT FADE ──
+gsap.to(".hero-content", {
+  opacity: 0,
+  y: -60,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".hero",
+    start: "top top",
+    end: "60% top",
+    scrub: true,
+  },
+});
+
+// ── STORYTELLING (3 PHASES) ──
+const storyTl = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#story",
+    start: "top top",
+    end: "bottom bottom",
+    scrub: 0.5,
+  },
+});
+storyTl
+  .fromTo("#phase1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.25 }, 0)
+  .to("#phase1", { opacity: 0, y: -50, duration: 0.25 }, 0.3)
+  .fromTo("#phase2", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.25 }, 0.4)
+  .to("#phase2", { opacity: 0, y: -50, duration: 0.25 }, 0.6)
+  .fromTo("#phase3", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.25 }, 0.7)
+  .to("#phase3", { opacity: 0, y: -50, duration: 0.2 }, 0.9);
+
+// ── HORIZONTAL SCROLL (5 PANELS) ──
+const panels = gsap.utils.toArray(".h-panel");
+gsap.to("#hTrack", {
+  x: () => -(window.innerWidth * (panels.length - 1)),
+  ease: "none",
+  scrollTrigger: {
+    trigger: "#hWrap",
+    pin: true,
+    scrub: 0.8,
+    invalidateOnRefresh: true,
+    end: () => "+=" + window.innerWidth * (panels.length - 1),
+    snap: {
+      snapTo: 1 / (panels.length - 1),
+      duration: { min: 0.3, max: 0.6 },
+      delay: 0.05,
+      ease: "power2.inOut",
+    },
+  },
+});
+
+// ── WERDEGANG TIMELINE ──
+const orbitSteps = [
+  {
+    year: "1998",
+    period: "1998 – 2009",
+    label: "Schulbildung",
+    desc: "Schulbildung in Teheran (Grundschule bis Realschule, Schwerpunkt Mathematik)",
+  },
+  {
+    year: "2009",
+    period: "2009 – 2012",
+    label: "Druckvorstufe",
+    desc: "Druckvorstufe – 5star Print and Design Complex, Teheran",
+  },
+  {
+    year: "2012",
+    period: "2012 – 2013",
+    label: "Kunststudium",
+    desc: "Tehran University of Art – Practical Art (nicht abgeschlossen)",
+  },
+  {
+    year: "2013",
+    period: "2013 – 2014",
+    label: "Militärdienst",
+    desc: "Militärdienst & selbstständige Tätigkeit als Grafikdesigner und Fitnesstrainer",
+  },
+  {
+    year: "2015",
+    period: "2015 – 2018",
+    label: "Grafikdesigner",
+    desc: "Grafikdesigner – Didgah Sima Print & Designs Complex, Teheran",
+  },
+  {
+    year: "2019",
+    period: "2019 – 2022",
+    label: "Ausbildung",
+    desc: "Ausbildung Mediengestalter Digital & Print · Augustin Print und Medien GmbH · XDC Media GmbH · Berufskolleg für Technik und Gestaltung",
+  },
+  {
+    year: "2022",
+    period: "2022 – 2026",
+    label: "Design & Marketing",
+    desc: "Design & Marketing – Marketingkampagnen, Print- und Digitalmaterialien, Social Media Content sowie interaktive Web-Tools (HTML, CSS, JavaScript, KI-gestützt)",
+  },
+];
+
+const tlYearEl = document.getElementById("tlYear");
+const tlLabelEl = document.getElementById("tlLabel");
+const tlBarEl = document.getElementById("tlBar");
+const periodEl = document.getElementById("orbitPeriod");
+const descEl = document.getElementById("orbitDesc");
+const tlDots = document.querySelectorAll(".tl-dot");
+let tlCurrentIdx = -1;
+
+ScrollTrigger.create({
+  trigger: "#werdegang",
+  start: "top top",
+  end: "bottom bottom",
+  scrub: true,
+  onUpdate: (self) => {
+    const idx = Math.min(
+      Math.floor(self.progress * orbitSteps.length),
+      orbitSteps.length - 1,
+    );
+    tlBarEl.style.width = self.progress * 100 + "%";
+    if (idx !== tlCurrentIdx) {
+      tlCurrentIdx = idx;
+      const step = orbitSteps[idx];
+      tlYearEl.style.opacity = "0";
+      periodEl.style.opacity = "0";
+      descEl.style.opacity = "0";
+      setTimeout(() => {
+        tlYearEl.textContent = step.year;
+        tlLabelEl.textContent = step.label;
+        periodEl.textContent = step.period;
+        descEl.textContent = step.desc;
+        tlYearEl.style.opacity = "1";
+        periodEl.style.opacity = "1";
+        descEl.style.opacity = "1";
+      }, 120);
+      tlDots.forEach((d, i) => {
+        d.classList.toggle("filled", i <= idx);
+        d.classList.toggle("current", i === idx);
+      });
+    }
+  },
+});
+
+// ── CARD GLOW ──
+document.querySelectorAll(".portfolio-card").forEach((card) => {
+  card.addEventListener("mousemove", (e) => {
+    const r = card.getBoundingClientRect();
+    card.querySelector(".card-glow").style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
+    card.querySelector(".card-glow").style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+  });
+});
+
+// ── SCROLL REVEAL ──
+document.querySelectorAll(".reveal").forEach((el, i) => {
+  ScrollTrigger.create({
+    trigger: el,
+    start: "top 88%",
+    onEnter: () => setTimeout(() => el.classList.add("visible"), (i % 4) * 80),
+  });
+});
+
+// ── SMILE COUNTER ──
+const API = "https://api.countapi.xyz";
+const NS = "amirmehrasebi-cv";
+const KEY = "smile";
+const OFFSET = 1000;
+
+const smileBtn = document.getElementById("smileBtn");
+const smileCount = document.getElementById("smileCount");
+
+function showCount(n) {
+  smileCount.textContent = n.toLocaleString("de-DE");
+  localStorage.setItem("smileCount", n);
+}
+
+const cached = parseInt(localStorage.getItem("smileCount"));
+if (cached) showCount(cached);
+
+fetch(`${API}/get/${NS}/${KEY}`)
+  .then((r) => r.json())
+  .then((d) => { if (d.value != null) showCount(d.value + OFFSET); })
+  .catch(() => {});
+
+smileBtn.addEventListener("click", () => {
+  smileBtn.disabled = true;
+  fetch(`${API}/hit/${NS}/${KEY}`)
+    .then((r) => r.json())
+    .then((d) => { showCount(d.value + OFFSET); })
+    .catch(() => {
+      const n = (parseInt(localStorage.getItem("smileCount")) || OFFSET) + 1;
+      showCount(n);
+    })
+    .finally(() => { smileBtn.disabled = false; });
+});
+
+// ── ROTATING SMILE TEXT ──
+const smileTexts = document.querySelectorAll(".smile-text");
+const smileIndicator = document.getElementById("smileIndicator");
+let smileIdx = 0;
+
+setInterval(() => {
+  smileTexts[smileIdx].classList.remove("active");
+  smileIdx = (smileIdx + 1) % smileTexts.length;
+  smileTexts[smileIdx].classList.add("active");
+  smileIndicator.textContent = smileIdx + 1;
+  smileIndicator.classList.add("pop");
+  setTimeout(() => smileIndicator.classList.remove("pop"), 300);
+}, 4500);
+
+// ── FLY EMOJI ON CLICK ──
+smileBtn.addEventListener("click", () => {
+  const rect = smileBtn.getBoundingClientRect();
+  for (let i = 0; i < 4; i++) {
+    const el = document.createElement("span");
+    el.className = "fly-emoji";
+    el.textContent = "😍";
+    el.style.left = rect.left + rect.width / 2 + (Math.random() - 0.5) * 50 + "px";
+    el.style.top = rect.top + rect.height / 2 + "px";
+    el.style.animationDelay = i * 0.08 + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1300);
   }
+});
+
+// ── IMAGE MODAL ──
+const imgModal = document.getElementById("imgModal");
+const imgModalImg = document.getElementById("imgModalImg");
+const imgModalClose = document.getElementById("imgModalClose");
+
+document.querySelectorAll(".float-card").forEach((card) => {
+  card.addEventListener("click", () => {
+    imgModalImg.src = card.querySelector("img").src;
+    imgModalImg.alt = card.querySelector("img").alt;
+    imgModal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  });
+});
+
+document.querySelectorAll(".portfolio-card").forEach((card) => {
+  const img = card.querySelector(".card-img img");
+  if (img) {
+    card.addEventListener("click", () => {
+      imgModalImg.src = img.src;
+      imgModalImg.alt = img.alt;
+      imgModal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    });
+  }
+});
+
+function closeModal() {
+  imgModal.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+imgModalClose.addEventListener("click", closeModal);
+imgModal.addEventListener("click", (e) => {
+  if (e.target === imgModal) closeModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
 });
