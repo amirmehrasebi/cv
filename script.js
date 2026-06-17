@@ -6,21 +6,19 @@ lenis.on("scroll", ScrollTrigger.update);
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
-ScrollTrigger.create({
-  trigger: "#hWrap",
-  start: "top top",
-  end: "bottom bottom",
-  onEnter: () => lenis.stop(),
-  onLeave: () => lenis.start(),
-  onEnterBack: () => lenis.stop(),
-  onLeaveBack: () => lenis.start(),
-});
-
 // ── NAV ──
 window.addEventListener("scroll", () => {
   document
     .getElementById("nav")
     .classList.toggle("scrolled", window.scrollY > 60);
+});
+
+// ── HAMBURGER MENU ──
+const burger = document.getElementById("burger");
+const navEl = document.getElementById("nav");
+burger.addEventListener("click", () => navEl.classList.toggle("nav-open"));
+document.querySelectorAll(".nav-links a").forEach((a) => {
+  a.addEventListener("click", () => navEl.classList.remove("nav-open"));
 });
 
 // ── HERO BG ZOOM ──
@@ -58,31 +56,58 @@ const storyTl = gsap.timeline({
   },
 });
 storyTl
-  .fromTo("#phase1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.25 }, 0)
+  .fromTo(
+    "#phase1",
+    { opacity: 0, y: 50 },
+    { opacity: 1, y: 0, duration: 0.25 },
+    0,
+  )
   .to("#phase1", { opacity: 0, y: -50, duration: 0.25 }, 0.3)
-  .fromTo("#phase2", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.25 }, 0.4)
+  .fromTo(
+    "#phase2",
+    { opacity: 0, y: 50 },
+    { opacity: 1, y: 0, duration: 0.25 },
+    0.4,
+  )
   .to("#phase2", { opacity: 0, y: -50, duration: 0.25 }, 0.6)
-  .fromTo("#phase3", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.25 }, 0.7)
+  .fromTo(
+    "#phase3",
+    { opacity: 0, y: 50 },
+    { opacity: 1, y: 0, duration: 0.25 },
+    0.7,
+  )
   .to("#phase3", { opacity: 0, y: -50, duration: 0.2 }, 0.9);
 
-// ── HORIZONTAL SCROLL (5 PANELS) ──
-const panels = gsap.utils.toArray(".h-panel");
-gsap.to("#hTrack", {
-  x: () => -(window.innerWidth * (panels.length - 1)),
-  ease: "none",
-  scrollTrigger: {
+// ── HORIZONTAL SCROLL (5 PANELS) — nur auf Desktop ──
+gsap.matchMedia().add("(min-width: 501px)", () => {
+  ScrollTrigger.create({
     trigger: "#hWrap",
-    pin: true,
-    scrub: 0.8,
-    invalidateOnRefresh: true,
-    end: () => "+=" + window.innerWidth * (panels.length - 1),
-    snap: {
-      snapTo: 1 / (panels.length - 1),
-      duration: { min: 0.3, max: 0.6 },
-      delay: 0.05,
-      ease: "power2.inOut",
+    start: "top top",
+    end: "bottom bottom",
+    onEnter: () => lenis.stop(),
+    onLeave: () => lenis.start(),
+    onEnterBack: () => lenis.stop(),
+    onLeaveBack: () => lenis.start(),
+  });
+
+  const panels = gsap.utils.toArray(".h-panel");
+  gsap.to("#hTrack", {
+    x: () => -(window.innerWidth * (panels.length - 1)),
+    ease: "none",
+    scrollTrigger: {
+      trigger: "#hWrap",
+      pin: true,
+      scrub: 0.8,
+      invalidateOnRefresh: true,
+      end: () => "+=" + window.innerWidth * (panels.length - 1),
+      snap: {
+        snapTo: 1 / (panels.length - 1),
+        duration: { min: 0.3, max: 0.6 },
+        delay: 0.05,
+        ease: "power2.inOut",
+      },
     },
-  },
+  });
 });
 
 // ── WERDEGANG TIMELINE ──
@@ -93,14 +118,15 @@ const orbitSteps = [
     label: "Mediengestalter",
     title: "Werksarztzentrum Deutschland GmbH",
     desc: [
-      "Gestaltung von Marketingmaterialien und Präsentationen (Print & Digital)",
-      "Social-Media-Content für LinkedIn und YouTube (Grafiken, Slides, Videos)",
-      "Produktion animierter Info-Videos und Unterweisungen",
-      "Entwicklung der Corporate Identity und des Corporate Designs",
-      "Gestaltung von Logos und Produktdesigns",
-      "Konzeption interaktiver Webtools mit KI-gestützten Tools",
-      "Digitalisierung von Excel-Prozessen in browserbasierte Lösungen",
-      "CMS Contao & technische Umsetzung von Marketingkampagnen",
+      "Corporate Identity & Corporate Design",
+      "Marketingmaterialien & Präsentationen",
+      "Logo- und Produktdesign",
+      "Druckvorstufe & Reinzeichnung",
+      "Konzeption und Erstellung digitaler Inhalte für digitale Kanäle und Social Media",
+      "Animierte Info- und Unterweisungsvideos (Vyond)",
+      "Konzeption und Umsetzung interaktiver Webtools für Marketingzwecke und direkte Leadgenerierung",
+      "CMS Contao – Pflege, Weiterentwicklung und technische Umsetzung von Marketingkampagnen in Zusammenarbeit mit SEO- und SEA-Experten",
+      "Digitalisierung analoger Prozesse in browserbasierte Lösungen",
     ],
   },
   {
@@ -109,8 +135,8 @@ const orbitSteps = [
     label: "Ausbildung",
     title: "Ausbildung zum Mediengestalter Digital & Print",
     desc: [
-      "Augustin Print und Medien GmbH",
-      "XDC Media GmbH",
+      "Augustin Print und Medien GmbH • Digitaldruckerei",
+      "XDC Media GmbH • Werbeagentur",
       "Berufskolleg für Technik und Gestaltung",
     ],
   },
@@ -119,9 +145,7 @@ const orbitSteps = [
     period: "Oktober 2018",
     label: "Neustart in Deutschland",
     title: "Auswanderung nach Deutschland",
-    desc: [
-      "Spracherwerb und Vorbereitung auf die Ausbildung",
-    ],
+    desc: ["Spracherwerb und Vorbereitung auf die Ausbildung"],
   },
 ];
 
@@ -134,49 +158,60 @@ const descEl = document.getElementById("orbitDesc");
 const tlDots = document.querySelectorAll(".tl-dot");
 let tlCurrentIdx = -1;
 
-ScrollTrigger.create({
-  trigger: "#werdegang",
-  start: "top top",
-  end: "bottom bottom",
-  scrub: true,
-  onUpdate: (self) => {
-    const idx = Math.min(
-      Math.floor(self.progress * orbitSteps.length),
-      orbitSteps.length - 1,
-    );
-    tlBarEl.style.width = self.progress * 100 + "%";
-    if (idx !== tlCurrentIdx) {
-      tlCurrentIdx = idx;
-      const step = orbitSteps[idx];
-      tlYearEl.style.opacity = "0";
-      periodEl.style.opacity = "0";
-      orbitTitleEl.style.opacity = "0";
-      descEl.style.opacity = "0";
-      setTimeout(() => {
-        tlYearEl.textContent = step.year;
-        tlLabelEl.textContent = step.label;
-        periodEl.textContent = step.period;
-        orbitTitleEl.textContent = step.title;
-        descEl.innerHTML = step.desc.map(line => `<div class="orbit-line"><span class="orbit-bullet">▸</span><span>${line}</span></div>`).join("");
-        tlYearEl.style.opacity = "1";
-        periodEl.style.opacity = "1";
-        orbitTitleEl.style.opacity = "1";
-        descEl.style.opacity = "1";
-      }, 120);
-      tlDots.forEach((d, i) => {
-        d.classList.toggle("filled", i <= idx);
-        d.classList.toggle("current", i === idx);
-      });
-    }
-  },
+gsap.matchMedia().add("(min-width: 501px)", () => {
+  ScrollTrigger.create({
+    trigger: "#werdegang",
+    start: "top top",
+    end: "bottom bottom",
+    scrub: true,
+    onUpdate: (self) => {
+      const idx = Math.min(
+        Math.floor(self.progress * orbitSteps.length),
+        orbitSteps.length - 1,
+      );
+      tlBarEl.style.width = self.progress * 100 + "%";
+      if (idx !== tlCurrentIdx) {
+        tlCurrentIdx = idx;
+        const step = orbitSteps[idx];
+        tlYearEl.style.opacity = "0";
+        periodEl.style.opacity = "0";
+        orbitTitleEl.style.opacity = "0";
+        descEl.style.opacity = "0";
+        setTimeout(() => {
+          tlYearEl.textContent = step.year;
+          tlLabelEl.textContent = step.label;
+          periodEl.textContent = step.period;
+          orbitTitleEl.textContent = step.title;
+          descEl.innerHTML = step.desc
+            .map(
+              (line) =>
+                `<div class="orbit-line"><span class="orbit-bullet">▸</span><span>${line}</span></div>`,
+            )
+            .join("");
+          tlYearEl.style.opacity = "1";
+          periodEl.style.opacity = "1";
+          orbitTitleEl.style.opacity = "1";
+          descEl.style.opacity = "1";
+        }, 120);
+        tlDots.forEach((d, i) => {
+          d.classList.toggle("filled", i <= idx);
+          d.classList.toggle("current", i === idx);
+        });
+      }
+    },
+  });
 });
 
 // ── CARD GLOW ──
 document.querySelectorAll(".portfolio-card").forEach((card) => {
   card.addEventListener("mousemove", (e) => {
     const r = card.getBoundingClientRect();
-    card.querySelector(".card-glow").style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
-    card.querySelector(".card-glow").style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
+    card
+      .querySelector(".card-glow")
+      .style.setProperty("--mx", ((e.clientX - r.left) / r.width) * 100 + "%");
+    card
+      .querySelector(".card-glow")
+      .style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
   });
 });
 
@@ -190,37 +225,16 @@ document.querySelectorAll(".reveal").forEach((el, i) => {
 });
 
 // ── SMILE COUNTER ──
-const API = "https://api.countapi.xyz";
-const NS = "amirmehrasebi-cv";
-const KEY = "smile";
-const OFFSET = 1000;
-
 const smileBtn = document.getElementById("smileBtn");
 const smileCount = document.getElementById("smileCount");
+let smileVal = 0;
 
 function showCount(n) {
   smileCount.textContent = n.toLocaleString("de-DE");
-  localStorage.setItem("smileCount", n);
 }
 
-const cached = parseInt(localStorage.getItem("smileCount"));
-if (cached) showCount(cached);
-
-fetch(`${API}/get/${NS}/${KEY}`)
-  .then((r) => r.json())
-  .then((d) => { if (d.value != null) showCount(d.value + OFFSET); })
-  .catch(() => {});
-
 smileBtn.addEventListener("click", () => {
-  smileBtn.disabled = true;
-  fetch(`${API}/hit/${NS}/${KEY}`)
-    .then((r) => r.json())
-    .then((d) => { showCount(d.value + OFFSET); })
-    .catch(() => {
-      const n = (parseInt(localStorage.getItem("smileCount")) || OFFSET) + 1;
-      showCount(n);
-    })
-    .finally(() => { smileBtn.disabled = false; });
+  showCount(++smileVal);
 });
 
 // ── ROTATING SMILE TEXT ──
@@ -244,7 +258,8 @@ smileBtn.addEventListener("click", () => {
     const el = document.createElement("span");
     el.className = "fly-emoji";
     el.textContent = "😍";
-    el.style.left = rect.left + rect.width / 2 + (Math.random() - 0.5) * 50 + "px";
+    el.style.left =
+      rect.left + rect.width / 2 + (Math.random() - 0.5) * 50 + "px";
     el.style.top = rect.top + rect.height / 2 + "px";
     el.style.animationDelay = i * 0.08 + "s";
     document.body.appendChild(el);
@@ -253,7 +268,8 @@ smileBtn.addEventListener("click", () => {
 });
 
 // ── PDF VIEWER ──
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 document.querySelectorAll(".pdf-card").forEach((card) => {
   const url = card.dataset.pdf;
@@ -283,13 +299,16 @@ document.querySelectorAll(".pdf-card").forEach((card) => {
     });
   }
 
-  pdfjsLib.getDocument(url).promise.then((pdf) => {
-    pdfDoc = pdf;
-    info.textContent = `1 / ${pdf.numPages}`;
-    renderPage(1);
-  }).catch(() => {
-    info.textContent = "PDF nicht geladen";
-  });
+  pdfjsLib
+    .getDocument(url)
+    .promise.then((pdf) => {
+      pdfDoc = pdf;
+      info.textContent = `1 / ${pdf.numPages}`;
+      renderPage(1);
+    })
+    .catch(() => {
+      info.textContent = "PDF nicht geladen";
+    });
 
   prevBtn.addEventListener("click", (e) => {
     e.stopPropagation();
