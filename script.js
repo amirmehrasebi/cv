@@ -88,46 +88,40 @@ gsap.to("#hTrack", {
 // ── WERDEGANG TIMELINE ──
 const orbitSteps = [
   {
-    year: "1998",
-    period: "1998 – 2009",
-    label: "Schulbildung",
-    desc: "Schulbildung in Teheran (Grundschule bis Realschule, Schwerpunkt Mathematik)",
-  },
-  {
-    year: "2009",
-    period: "2009 – 2012",
-    label: "Druckvorstufe",
-    desc: "Druckvorstufe – 5star Print and Design Complex, Teheran",
-  },
-  {
-    year: "2012",
-    period: "2012 – 2013",
-    label: "Kunststudium",
-    desc: "Tehran University of Art – Practical Art (nicht abgeschlossen)",
-  },
-  {
-    year: "2013",
-    period: "2013 – 2014",
-    label: "Militärdienst",
-    desc: "Militärdienst & selbstständige Tätigkeit als Grafikdesigner und Fitnesstrainer",
-  },
-  {
-    year: "2015",
-    period: "2015 – 2018",
-    label: "Grafikdesigner",
-    desc: "Grafikdesigner – Didgah Sima Print & Designs Complex, Teheran",
-  },
-  {
-    year: "2019",
-    period: "2019 – 2022",
-    label: "Ausbildung",
-    desc: "Ausbildung Mediengestalter Digital & Print · Augustin Print und Medien GmbH · XDC Media GmbH · Berufskolleg für Technik und Gestaltung",
+    year: "2026",
+    period: "08.2022 – 08.2026",
+    label: "Mediengestalter",
+    title: "Werksarztzentrum Deutschland GmbH",
+    desc: [
+      "Gestaltung von Marketingmaterialien und Präsentationen (Print & Digital)",
+      "Social-Media-Content für LinkedIn und YouTube (Grafiken, Slides, Videos)",
+      "Produktion animierter Info-Videos und Unterweisungen",
+      "Entwicklung der Corporate Identity und des Corporate Designs",
+      "Gestaltung von Logos und Produktdesigns",
+      "Konzeption interaktiver Webtools mit KI-gestützten Tools",
+      "Digitalisierung von Excel-Prozessen in browserbasierte Lösungen",
+      "CMS Contao & technische Umsetzung von Marketingkampagnen",
+    ],
   },
   {
     year: "2022",
-    period: "2022 – 2026",
-    label: "Design & Marketing",
-    desc: "Design & Marketing – Marketingkampagnen, Print- und Digitalmaterialien, Social Media Content sowie interaktive Web-Tools (HTML, CSS, JavaScript, KI-gestützt)",
+    period: "09.2019 – 06.2022",
+    label: "Ausbildung",
+    title: "Ausbildung zum Mediengestalter Digital & Print",
+    desc: [
+      "Augustin Print und Medien GmbH",
+      "XDC Media GmbH",
+      "Berufskolleg für Technik und Gestaltung",
+    ],
+  },
+  {
+    year: "2018",
+    period: "Oktober 2018",
+    label: "Neustart in Deutschland",
+    title: "Auswanderung nach Deutschland",
+    desc: [
+      "Spracherwerb und Vorbereitung auf die Ausbildung",
+    ],
   },
 ];
 
@@ -135,6 +129,7 @@ const tlYearEl = document.getElementById("tlYear");
 const tlLabelEl = document.getElementById("tlLabel");
 const tlBarEl = document.getElementById("tlBar");
 const periodEl = document.getElementById("orbitPeriod");
+const orbitTitleEl = document.getElementById("orbitTitle");
 const descEl = document.getElementById("orbitDesc");
 const tlDots = document.querySelectorAll(".tl-dot");
 let tlCurrentIdx = -1;
@@ -155,14 +150,17 @@ ScrollTrigger.create({
       const step = orbitSteps[idx];
       tlYearEl.style.opacity = "0";
       periodEl.style.opacity = "0";
+      orbitTitleEl.style.opacity = "0";
       descEl.style.opacity = "0";
       setTimeout(() => {
         tlYearEl.textContent = step.year;
         tlLabelEl.textContent = step.label;
         periodEl.textContent = step.period;
-        descEl.textContent = step.desc;
+        orbitTitleEl.textContent = step.title;
+        descEl.innerHTML = step.desc.map(line => `<div class="orbit-line"><span class="orbit-bullet">▸</span><span>${line}</span></div>`).join("");
         tlYearEl.style.opacity = "1";
         periodEl.style.opacity = "1";
+        orbitTitleEl.style.opacity = "1";
         descEl.style.opacity = "1";
       }, 120);
       tlDots.forEach((d, i) => {
@@ -252,6 +250,55 @@ smileBtn.addEventListener("click", () => {
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 1300);
   }
+});
+
+// ── PDF VIEWER ──
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+document.querySelectorAll(".pdf-card").forEach((card) => {
+  const url = card.dataset.pdf;
+  const canvas = card.querySelector(".pdf-canvas");
+  const ctx = canvas.getContext("2d");
+  const prevBtn = card.querySelector(".pdf-prev");
+  const nextBtn = card.querySelector(".pdf-next");
+  const info = card.querySelector(".pdf-info");
+  let pdfDoc = null;
+  let currentPage = 1;
+  let rendering = false;
+
+  function renderPage(num) {
+    if (rendering) return;
+    rendering = true;
+    pdfDoc.getPage(num).then((page) => {
+      const scale = canvas.offsetWidth / page.getViewport({ scale: 1 }).width;
+      const viewport = page.getViewport({ scale: scale || 1 });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+        rendering = false;
+        info.textContent = `${num} / ${pdfDoc.numPages}`;
+        prevBtn.disabled = num <= 1;
+        nextBtn.disabled = num >= pdfDoc.numPages;
+      });
+    });
+  }
+
+  pdfjsLib.getDocument(url).promise.then((pdf) => {
+    pdfDoc = pdf;
+    info.textContent = `1 / ${pdf.numPages}`;
+    renderPage(1);
+  }).catch(() => {
+    info.textContent = "PDF nicht geladen";
+  });
+
+  prevBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (currentPage > 1) renderPage(--currentPage);
+  });
+  nextBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (pdfDoc && currentPage < pdfDoc.numPages) renderPage(++currentPage);
+  });
 });
 
 // ── IMAGE MODAL ──
