@@ -11,6 +11,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="preload"
+      as="image"
+      href="https://raw.githubusercontent.com/amirmehrasebi/cv/refs/heads/main/assets/images/profil.jpg"
+    />
   </head>
   <body>
     <!-- NAV -->
@@ -18,7 +23,7 @@
       <div class="nav-left">
         <button class="smile-btn" id="smileBtn">
           Schon gelächelt?
-          <span class="smile-count" id="smileCount">1000</span>
+          <span class="smile-count" id="smileCount">0</span>
         </button>
         <div class="smile-indicator" id="smileIndicator">1</div>
         <div class="smile-rotating">
@@ -38,6 +43,11 @@
           >
         </div>
       </div>
+      <button class="burger" id="burger" aria-label="Menü öffnen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <div class="nav-links">
         <a href="#story">Profil</a>
         <a href="#hWrap">Kompetenzen</a>
@@ -69,6 +79,7 @@
             src="https://raw.githubusercontent.com/amirmehrasebi/cv/refs/heads/main/assets/images/profil.jpg"
             alt="Amir Mehrasebi"
             class="hero-photo"
+            fetchpriority="high"
           />
         </div>
       </div>
@@ -129,8 +140,8 @@
 
         <div class="story-phase" id="phase3">
           <div class="phase-label">03 / Erfahrung</div>
-          <div class="big-num">7+</div>
-          <p>Jahre Berufserfahrung.<br />Von Teheran bis Recklinghausen.</p>
+          <div class="big-num">6+</div>
+          <p>Jahre Berufserfahrung</p>
         </div>
       </div>
     </div>
@@ -163,10 +174,11 @@
             <div class="h-panel-title">Marketing &amp;<br />Digital</div>
             <ul class="h-panel-list">
               <li>Gestaltung von Marketingmaterialien</li>
-              <li>Newsletter-Design</li>
-              <li>Technische Kampagnenunterstützung</li>
-              <li>Social-Media-Grafiken</li>
+              <li>Newsletter</li>
+              <li>Technische Umsetzung digitaler Marketingkampagnen</li>
+              <li>Social Media</li>
               <li>CMS-Management</li>
+              <li>CRM (Grundkenntnisse)</li>
               <li>HTML</li>
               <li>CSS</li>
               <li>JavaScript (Grundkenntnisse)</li>
@@ -227,20 +239,6 @@
               Vom Druckvorstufenbereich über Agentur- und Webdesign bis hin zur
               digitalen Marketingunterstützung.
             </p>
-            <div class="orbit-period-label" id="orbitPeriod">
-              08.2022 – 08.2026
-            </div>
-            <div class="orbit-title" id="orbitTitle">Werksarztzentrum Deutschland GmbH</div>
-            <div class="orbit-period-desc" id="orbitDesc">
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Gestaltung von Marketingmaterialien und Präsentationen (Print &amp; Digital)</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Social-Media-Content für LinkedIn und YouTube (Grafiken, Slides, Videos)</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Produktion animierter Info-Videos und Unterweisungen</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Entwicklung der Corporate Identity und des Corporate Designs</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Gestaltung von Logos und Produktdesigns</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Konzeption interaktiver Webtools mit KI-gestützten Tools</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Digitalisierung von Excel-Prozessen in browserbasierte Lösungen</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>CMS Contao &amp; technische Umsetzung von Marketingkampagnen</span></div>
-            </div>
           </div>
           <div class="imgseq-visual">
             <div class="tl-big-year" id="tlYear">2026</div>
@@ -260,6 +258,25 @@
               </div>
             </div>
           </div>
+          <div class="imgseq-orbit">
+            <div class="orbit-period-label" id="orbitPeriod">
+              08.2022 – 08.2026
+            </div>
+            <div class="orbit-title" id="orbitTitle">
+              Werksarztzentrum Deutschland GmbH
+            </div>
+            <div class="orbit-period-desc" id="orbitDesc">
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Corporate Identity &amp; Corporate Design</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Marketingmaterialien &amp; Präsentationen</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Logo- und Produktdesign</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Druckvorstufe &amp; Reinzeichnung</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Konzeption und Erstellung digitaler Inhalte für digitale Kanäle und Social Media</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Animierte Info- und Unterweisungsvideos (Vyond)</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Konzeption und Umsetzung interaktiver Webtools für Marketingzwecke und direkte Leadgenerierung</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>CMS Contao – Pflege, Weiterentwicklung und technische Umsetzung von Marketingkampagnen in Zusammenarbeit mit SEO- und SEA-Experten</span></div>
+              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Digitalisierung analoger Prozesse in browserbasierte Lösungen</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -268,7 +285,7 @@
     <section class="section" id="arbeitsproben">
       <div class="section-header reveal">
         <div class="sec-tag">05 / Arbeitsproben</div>
-        <h2>Ausgewählte<br />Projekte</h2>
+        <h2>Einige Arbeitsproben</h2>
       </div>
       <div class="portfolio-grid">
         <div class="portfolio-card reveal">
