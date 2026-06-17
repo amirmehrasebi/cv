@@ -704,11 +704,32 @@ body {
   margin-bottom: 0.6rem;
   transition: opacity 0.2s;
 }
-.orbit-period-desc {
+.orbit-title {
+  color: var(--accent);
   font-size: 1rem;
-  color: var(--text);
-  line-height: 1.75;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
   transition: opacity 0.2s;
+}
+.orbit-period-desc {
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: opacity 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.orbit-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.5;
+}
+.orbit-bullet {
+  color: var(--accent);
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  margin-top: 0.2rem;
 }
 .imgseq-visual {
   display: flex;
@@ -867,6 +888,54 @@ body {
   object-fit: cover;
   display: block;
   transition: transform 0.4s ease;
+}
+.card-img.pdf-wrap {
+  display: block;
+  position: relative;
+  aspect-ratio: auto;
+  min-height: 200px;
+}
+.pdf-canvas {
+  width: 100%;
+  display: block;
+}
+.pdf-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}
+.pdf-btn {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+.pdf-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+.pdf-info {
+  color: #fff;
+  font-size: 0.8rem;
+  min-width: 4rem;
+  text-align: center;
 }
 .portfolio-card:hover .card-img img {
   transform: scale(1.05);
