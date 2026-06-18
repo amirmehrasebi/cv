@@ -1,13 +1,12 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// ── LENIS SMOOTH SCROLL ──
+
 const lenis = new Lenis({ lerp: 0.12, smoothWheel: true });
 lenis.on("scroll", ScrollTrigger.update);
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
 
-// ── NAV ──
 const navProgressEl = document.getElementById("navProgress");
 const scrollTopBtn = document.getElementById("scrollTop");
 window.addEventListener("scroll", () => {
@@ -23,7 +22,7 @@ scrollTopBtn.addEventListener("click", () => {
   lenis.scrollTo(0, { duration: 1.5 });
 });
 
-// ── HAMBURGER MENU ──
+
 const burger = document.getElementById("burger");
 const navEl = document.getElementById("nav");
 burger.addEventListener("click", () => navEl.classList.toggle("nav-open"));
@@ -31,7 +30,7 @@ document.querySelectorAll(".nav-links a").forEach((a) => {
   a.addEventListener("click", () => navEl.classList.remove("nav-open"));
 });
 
-// ── HERO FLOW LINES ──
+
 (() => {
   const cv = document.getElementById("heroDots");
   const ctx = cv.getContext("2d");
@@ -75,9 +74,13 @@ document.querySelectorAll(".nav-links a").forEach((a) => {
     const now = performance.now();
     for (const line of lines) {
       for (const p of line.pts) {
-        let ty = line.baseY +
-          Math.sin(p.bx * line.freq + now * line.speed + line.phase) * line.amp +
-          Math.sin(p.bx * line.freq * 2.3 + now * line.speed * 0.7) * line.amp * 0.3;
+        let ty =
+          line.baseY +
+          Math.sin(p.bx * line.freq + now * line.speed + line.phase) *
+            line.amp +
+          Math.sin(p.bx * line.freq * 2.3 + now * line.speed * 0.7) *
+            line.amp *
+            0.3;
 
         if (mouse.on) {
           const dx = mouse.x - p.x;
@@ -122,24 +125,31 @@ document.querySelectorAll(".nav-links a").forEach((a) => {
     mouse.y = e.clientY - rect.top;
     mouse.on = true;
   });
-  hero.addEventListener("mouseleave", () => { mouse.on = false; });
+  hero.addEventListener("mouseleave", () => {
+    mouse.on = false;
+  });
 
   window.addEventListener("resize", resize);
   resize();
 
   const observer = new IntersectionObserver(
-    ([entry]) => { running = entry.isIntersecting; },
-    { threshold: 0 }
+    ([entry]) => {
+      running = entry.isIntersecting;
+    },
+    { threshold: 0 },
   );
   observer.observe(hero);
 
   (function loop() {
-    if (running) { tick(); draw(); }
+    if (running) {
+      tick();
+      draw();
+    }
     requestAnimationFrame(loop);
   })();
 })();
 
-// ── HERO BG ZOOM ──
+
 gsap.to("#heroBg", {
   scale: 1,
   ease: "none",
@@ -151,7 +161,7 @@ gsap.to("#heroBg", {
   },
 });
 
-// ── HERO CONTENT FADE — nur Desktop ──
+
 gsap.matchMedia().add("(min-width: 501px)", () => {
   gsap.to(".hero-content", {
     opacity: 0,
@@ -166,7 +176,7 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
   });
 });
 
-// ── STORYTELLING (3 PHASES) — nur Desktop ──
+
 gsap.matchMedia().add("(min-width: 501px)", () => {
   const storyTl = gsap.timeline({
     scrollTrigger: {
@@ -200,7 +210,7 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
     .to("#phase3", { opacity: 0, y: -50, duration: 0.2 }, 0.9);
 });
 
-// ── HORIZONTAL SCROLL (5 PANELS) — nur auf Desktop ──
+
 gsap.matchMedia().add("(min-width: 501px)", () => {
   ScrollTrigger.create({
     trigger: "#hWrap",
@@ -235,10 +245,12 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
         const arrowSvg = hintEl.querySelector(".h-hint-arrow");
         const lastSnap = (panels.length - 1.5) / (panels.length - 1);
         if (self.progress >= lastSnap) {
-          arrowSvg.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>';
+          arrowSvg.innerHTML =
+            '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>';
           hintEl.classList.add("down");
         } else {
-          arrowSvg.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+          arrowSvg.innerHTML =
+            '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
           hintEl.classList.remove("down");
         }
       },
@@ -246,7 +258,7 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
   });
 });
 
-// ── WERDEGANG TIMELINE ──
+
 const orbitSteps = [
   {
     year: "2026",
@@ -338,7 +350,7 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
   });
 });
 
-// ── WERDEGANG — klickbare Dots (Mobile) ──
+
 function showOrbitStep(idx) {
   const step = orbitSteps[idx];
   if (!step) return;
@@ -364,7 +376,7 @@ tlDots.forEach((dot, i) => {
   dot.addEventListener("click", () => showOrbitStep(i));
 });
 
-// ── CARD GLOW ──
+
 document.querySelectorAll(".portfolio-card").forEach((card) => {
   card.addEventListener("mousemove", (e) => {
     const r = card.getBoundingClientRect();
@@ -377,7 +389,7 @@ document.querySelectorAll(".portfolio-card").forEach((card) => {
   });
 });
 
-// ── SCROLL REVEAL ──
+
 document.querySelectorAll(".reveal").forEach((el, i) => {
   ScrollTrigger.create({
     trigger: el,
@@ -386,50 +398,6 @@ document.querySelectorAll(".reveal").forEach((el, i) => {
   });
 });
 
-// ── SMILE COUNTER (auskommentiert — nav-left deaktiviert) ──
-/*
-const smileBtn = document.getElementById("smileBtn");
-const smileCount = document.getElementById("smileCount");
-let smileVal = 0;
-
-function showCount(n) {
-  smileCount.textContent = n.toLocaleString("de-DE");
-}
-
-smileBtn.addEventListener("click", () => {
-  showCount(++smileVal);
-});
-
-const smileTexts = document.querySelectorAll(".smile-text");
-const smileIndicator = document.getElementById("smileIndicator");
-let smileIdx = 0;
-
-setInterval(() => {
-  smileTexts[smileIdx].classList.remove("active");
-  smileIdx = (smileIdx + 1) % smileTexts.length;
-  smileTexts[smileIdx].classList.add("active");
-  smileIndicator.textContent = smileIdx + 1;
-  smileIndicator.classList.add("pop");
-  setTimeout(() => smileIndicator.classList.remove("pop"), 300);
-}, 4500);
-
-smileBtn.addEventListener("click", () => {
-  const rect = smileBtn.getBoundingClientRect();
-  for (let i = 0; i < 4; i++) {
-    const el = document.createElement("span");
-    el.className = "fly-emoji";
-    el.textContent = "😍";
-    el.style.left =
-      rect.left + rect.width / 2 + (Math.random() - 0.5) * 50 + "px";
-    el.style.top = rect.top + rect.height / 2 + "px";
-    el.style.animationDelay = i * 0.08 + "s";
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 1300);
-  }
-});
-*/
-
-// ── THEME TOGGLE (gesteuert über Toolbar-Pipette) ──
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme) document.documentElement.setAttribute("data-theme", savedTheme);
 
@@ -444,7 +412,7 @@ function toggleTheme() {
   localStorage.setItem("theme", next);
 }
 
-// ── SEARCH ──
+
 const searchOverlay = document.getElementById("searchOverlay");
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
@@ -464,7 +432,11 @@ const searchSections = [
 ];
 
 document.addEventListener("click", (e) => {
-  if (searchOverlay.classList.contains("open") && !searchOverlay.contains(e.target) && !e.target.closest('[data-tool="search"]')) {
+  if (
+    searchOverlay.classList.contains("open") &&
+    !searchOverlay.contains(e.target) &&
+    !e.target.closest('[data-tool="search"]')
+  ) {
     searchOverlay.classList.remove("open");
   }
 });
@@ -480,12 +452,22 @@ searchInput.addEventListener("input", () => {
 function renderResults(query) {
   if (!query) {
     searchResults.innerHTML = searchSections
-      .map((s) => `<div class="search-result-item" data-href="${s.href}"><div class="sr-tag">${s.tag}</div>${s.label}</div>`)
+      .map(
+        (s) =>
+          `<div class="search-result-item" data-href="${s.href}"><div class="sr-tag">${s.tag}</div>${s.label}</div>`,
+      )
       .join("");
   } else {
-    const filtered = searchSections.filter((s) => s.label.toLowerCase().includes(query) || s.tag.toLowerCase().includes(query));
+    const filtered = searchSections.filter(
+      (s) =>
+        s.label.toLowerCase().includes(query) ||
+        s.tag.toLowerCase().includes(query),
+    );
     searchResults.innerHTML = filtered
-      .map((s) => `<div class="search-result-item" data-href="${s.href}"><div class="sr-tag">${s.tag}</div>${s.label}</div>`)
+      .map(
+        (s) =>
+          `<div class="search-result-item" data-href="${s.href}"><div class="sr-tag">${s.tag}</div>${s.label}</div>`,
+      )
       .join("");
   }
   searchResults.querySelectorAll(".search-result-item").forEach((item) => {
@@ -498,7 +480,7 @@ function renderResults(query) {
   });
 }
 
-// ── PDF VIEWER ──
+
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
@@ -551,7 +533,7 @@ document.querySelectorAll(".pdf-card").forEach((card) => {
   });
 });
 
-// ── IMAGE MODAL ──
+
 const imgModal = document.getElementById("imgModal");
 const imgModalImg = document.getElementById("imgModalImg");
 const imgModalClose = document.getElementById("imgModalClose");
@@ -590,7 +572,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
 });
 
-// ── TOOLBAR DRAG ──
+
 const toolbarEl = document.getElementById("toolbar");
 const tbDrag = document.getElementById("tbDrag");
 const savedSide = localStorage.getItem("toolbarSide");
@@ -623,13 +605,16 @@ window.addEventListener("pointerup", (e) => {
   if (!tbDragging) return;
   tbDragging = false;
   toolbarEl.classList.remove("dragging");
-  if (tbGhost) { tbGhost.remove(); tbGhost = null; }
+  if (tbGhost) {
+    tbGhost.remove();
+    tbGhost = null;
+  }
   const side = e.clientX > window.innerWidth / 2 ? "right" : "left";
   toolbarEl.classList.toggle("right", side === "right");
   localStorage.setItem("toolbarSide", side);
 });
 
-// ── TOOLBAR ──
+
 const drawCanvas = document.getElementById("drawCanvas");
 const drawCtx = drawCanvas.getContext("2d");
 const tbBtns = document.querySelectorAll(".tb-btn");
@@ -644,7 +629,7 @@ const terminalInput = document.getElementById("terminalInput");
 const terminalBody = document.getElementById("terminalBody");
 const terminalClose = document.getElementById("terminalClose");
 
-let currentTool = "brush";
+let currentTool = null;
 let brushColor = "#14b8a6";
 let brushSize = 3;
 let isDrawing = false;
@@ -652,7 +637,9 @@ let undoStack = [];
 let rectStart = null;
 
 function saveState() {
-  undoStack.push(drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height));
+  undoStack.push(
+    drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height),
+  );
   if (undoStack.length > 30) undoStack.shift();
 }
 
@@ -687,9 +674,13 @@ function setTool(tool) {
   if (tool === "clear") {
     saveState();
     drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+    document.querySelectorAll(".draw-text-block").forEach((el) => el.remove());
     return;
   }
-  if (tool === "undo") { undo(); return; }
+  if (tool === "undo") {
+    undo();
+    return;
+  }
   if (tool === "color") {
     tbSizePicker.classList.remove("open");
     tbColorPicker.classList.toggle("open");
@@ -700,7 +691,10 @@ function setTool(tool) {
     tbSizePicker.classList.toggle("open");
     return;
   }
-  if (tool === "pipette") { toggleTheme(); return; }
+  if (tool === "pipette") {
+    toggleTheme();
+    return;
+  }
   if (tool === "search") {
     searchOverlay.classList.toggle("open");
     if (searchOverlay.classList.contains("open")) {
@@ -749,7 +743,9 @@ document.querySelectorAll(".tb-cp-swatch").forEach((s) => {
   s.addEventListener("click", () => {
     brushColor = s.dataset.color;
     tbColorDot.style.background = brushColor;
-    document.querySelectorAll(".tb-cp-swatch").forEach((sw) => sw.classList.remove("selected"));
+    document
+      .querySelectorAll(".tb-cp-swatch")
+      .forEach((sw) => sw.classList.remove("selected"));
     s.classList.add("selected");
     tbColorPicker.classList.remove("open");
   });
@@ -768,19 +764,64 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault();
     undo();
   }
+  if (e.key === "Escape" && currentTool) {
+    currentTool = null;
+    tbBtns.forEach((b) => b.classList.remove("active"));
+    drawCanvas.classList.remove("drawing", "erasing", "texting", "recting");
+    drawCanvas.style.pointerEvents = "";
+    closePickers();
+  }
 });
 
-// ── CANVAS DRAWING ──
+
+function createTextBlock(x, y) {
+  const el = document.createElement("div");
+  el.className = "draw-text-block";
+  el.contentEditable = "true";
+  el.spellcheck = false;
+  el.style.left = x + "px";
+  el.style.top = y + "px";
+  el.style.color = brushColor;
+  el.style.fontSize = Math.max(brushSize * 5, 16) + "px";
+  document.body.appendChild(el);
+
+  drawCanvas.style.pointerEvents = "none";
+  requestAnimationFrame(() => el.focus());
+
+  const handle = document.createElement("div");
+  handle.className = "draw-text-drag";
+  el.appendChild(handle);
+
+  handle.addEventListener("pointerdown", (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    const dragOff = {
+      x: ev.clientX - el.getBoundingClientRect().left,
+      y: ev.clientY - el.getBoundingClientRect().top,
+    };
+    function onMove(mv) {
+      el.style.left = mv.clientX - dragOff.x + "px";
+      el.style.top = mv.clientY - dragOff.y + "px";
+    }
+    function onUp() {
+      document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerup", onUp);
+    }
+    document.addEventListener("pointermove", onMove);
+    document.addEventListener("pointerup", onUp);
+  });
+
+  el.addEventListener("blur", () => {
+    if (!el.textContent.trim()) el.remove();
+    if (currentTool === "text") {
+      drawCanvas.style.pointerEvents = "auto";
+    }
+  });
+}
+
 drawCanvas.addEventListener("pointerdown", (e) => {
   if (currentTool === "text") {
-    saveState();
-    const text = prompt("Text eingeben:");
-    if (text) {
-      drawCtx.globalCompositeOperation = "source-over";
-      drawCtx.font = `${Math.max(brushSize * 5, 16)}px Poppins, sans-serif`;
-      drawCtx.fillStyle = brushColor;
-      drawCtx.fillText(text, e.clientX, e.clientY);
-    }
+    createTextBlock(e.clientX, e.clientY);
     return;
   }
 
@@ -825,20 +866,26 @@ drawCanvas.addEventListener("pointerup", (e) => {
       rectStart.x,
       rectStart.y,
       e.clientX - rectStart.x,
-      e.clientY - rectStart.y
+      e.clientY - rectStart.y,
     );
     rectStart = null;
   }
 });
-drawCanvas.addEventListener("pointerleave", () => { isDrawing = false; });
+drawCanvas.addEventListener("pointerleave", () => {
+  isDrawing = false;
+});
 
-// ── TERMINAL COMMANDS ──
+
 const terminalCmds = {
   help: "Verfügbare Befehle: <span style='color:var(--accent)'>about</span>, <span style='color:var(--accent)'>skills</span>, <span style='color:var(--accent)'>contact</span>, <span style='color:var(--accent)'>experience</span>, <span style='color:var(--accent)'>clear</span>",
-  about: "Amir Mehrasebi — Mediengestalter Digital & Print.<br>33 Jahre alt, seit 2018 in Deutschland.<br>Kreativ, neugierig, immer auf der Suche nach der nächsten Idee.",
-  skills: "→ Adobe CC (InDesign, Photoshop, Illustrator, Acrobat)<br>→ Figma, Canva, CorelDraw<br>→ HTML, CSS, JS (Grundkenntnisse)<br>→ Vyond, CapCut<br>→ CMS Contao<br>→ Deutsch (fließend), Englisch (fließend), Persisch (Muttersprache)",
-  contact: "📞 0157 70 04 44 41<br>✉ mehrasebi.amir@gmail.com<br>🔗 linkedin.com/in/amir-mehrasebi",
-  experience: "2022–2026 — Werksarztzentrum Deutschland GmbH (Mediengestalter)<br>2019–2022 — Ausbildung Mediengestalter Digital & Print<br>2018 — Auswanderung nach Deutschland",
+  about:
+    "Amir Mehrasebi — Mediengestalter Digital & Print.<br>33 Jahre alt, seit 2018 in Deutschland.<br>Kreativ, neugierig, immer auf der Suche nach der nächsten Idee.",
+  skills:
+    "→ Adobe CC (InDesign, Photoshop, Illustrator, Acrobat)<br>→ Figma, Canva, CorelDraw<br>→ HTML, CSS, JS (Grundkenntnisse)<br>→ Vyond, CapCut<br>→ CMS Contao<br>→ Deutsch (fließend), Englisch (fließend), Persisch (Muttersprache)",
+  contact:
+    "📞 0157 70 04 44 41<br>✉ mehrasebi.amir@gmail.com<br>🔗 linkedin.com/in/amir-mehrasebi",
+  experience:
+    "2022–2026 — Werksarztzentrum Deutschland GmbH (Mediengestalter)<br>2019–2022 — Ausbildung Mediengestalter Digital & Print<br>2018 — Auswanderung nach Deutschland",
   clear: "__CLEAR__",
 };
 
@@ -850,7 +897,8 @@ function terminalExec(cmd) {
   terminalBody.innerHTML += `<div class="terminal-line"><span style="color:var(--accent)">$</span> ${cmd}</div>`;
 
   if (out === "__CLEAR__") {
-    terminalBody.innerHTML = '<div class="terminal-line">Terminal gelöscht.</div>';
+    terminalBody.innerHTML =
+      '<div class="terminal-line">Terminal gelöscht.</div>';
   } else if (out) {
     terminalBody.innerHTML += `<div class="terminal-line">${out}</div>`;
   } else {
@@ -873,7 +921,7 @@ terminalOverlay.addEventListener("click", (e) => {
   if (e.target === terminalOverlay) terminalOverlay.classList.remove("open");
 });
 
-// ── DEEP LINK (Hash oder ?to=) ──
+
 (function handleDeepLink() {
   const target =
     window.location.hash.slice(1) ||
