@@ -20,47 +20,40 @@
   <body>
     <!-- NAV -->
     <nav class="nav" id="nav">
-      <div class="nav-left">
-        <button class="smile-btn" id="smileBtn">
-          Schon gelächelt?
-          <span class="smile-count" id="smileCount">0</span>
+      <div class="nav-inner">
+        <a href="#hero" class="nav-brand">Amir's <span>Portfolio</span></a>
+        <button class="burger" id="burger" aria-label="Menü öffnen">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-        <div class="smile-indicator" id="smileIndicator">1</div>
-        <div class="smile-rotating">
-          <span class="smile-text active">Hey, schön, dass du hier bist.</span>
-          <span class="smile-text">Darf ich dich um etwas bitten?</span>
-          <span class="smile-text"
-            >Nimm dir einen Moment. Atme tief durch. Lächle kurz.</span
-          >
-          <span class="smile-text">Ja, genau jetzt. 😊</span>
-          <span class="smile-text"
-            >Und wenn du magst, schick mir dieses Lächeln gedanklich
-            rüber.</span
-          >
-          <span class="smile-text"
-            >Ein Lächeln schadet nie – aber es kann unglaublich viel
-            bewirken.</span
-          >
+        <div class="nav-links">
+          <a href="#story">Profil</a>
+          <a href="#hWrap">Kompetenzen</a>
+          <a href="#werdegang">Werdegang</a>
+          <a href="#arbeitsproben">Arbeitsproben</a>
+          <a href="#kontakt">Kontakt</a>
         </div>
       </div>
-      <button class="burger" id="burger" aria-label="Menü öffnen">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="nav-links">
-        <a href="#story">Profil</a>
-        <a href="#hWrap">Kompetenzen</a>
-        <a href="#werdegang">Werdegang</a>
-        <a href="#arbeitsproben">Arbeitsproben</a>
-        <a href="#kontakt">Kontakt</a>
+      <!-- SEARCH OVERLAY (gesteuert über Toolbar) -->
+      <div class="search-overlay" id="searchOverlay">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Suche…"
+            autocomplete="off"
+          />
+          <div class="search-results" id="searchResults"></div>
+        </div>
       </div>
+      <div class="nav-progress"><div class="nav-progress-fill" id="navProgress"></div></div>
     </nav>
 
     <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero-bg" id="heroBg"></div>
-      <div class="hero-bg-grid"></div>
+      <canvas class="hero-dots" id="heroDots"></canvas>
       <div class="hero-inner">
         <div class="hero-content">
           <h1 class="hero-name">
@@ -148,6 +141,22 @@
 
     <!-- HORIZONTAL SCROLL / KOMPETENZEN DETAIL -->
     <div class="horizontal-wrap" id="hWrap">
+      <div class="h-scroll-hint" id="hScrollHint">
+        <span class="h-hint-arrow"
+          ><svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" /></svg
+        ></span>
+      </div>
       <div class="horizontal-track" id="hTrack">
         <div class="h-panel">
           <div class="h-panel-inner">
@@ -266,19 +275,60 @@
               Werksarztzentrum Deutschland GmbH
             </div>
             <div class="orbit-period-desc" id="orbitDesc">
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Corporate Identity &amp; Corporate Design</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Marketingmaterialien &amp; Präsentationen</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Logo- und Produktdesign</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Druckvorstufe &amp; Reinzeichnung</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Konzeption und Erstellung digitaler Inhalte für digitale Kanäle und Social Media</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Animierte Info- und Unterweisungsvideos (Vyond)</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Konzeption und Umsetzung interaktiver Webtools für Marketingzwecke und direkte Leadgenerierung</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>CMS Contao – Pflege, Weiterentwicklung und technische Umsetzung von Marketingkampagnen in Zusammenarbeit mit SEO- und SEA-Experten</span></div>
-              <div class="orbit-line"><span class="orbit-bullet">▸</span><span>Digitalisierung analoger Prozesse in browserbasierte Lösungen</span></div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span>Corporate Identity &amp; Corporate Design</span>
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span>Marketingmaterialien &amp; Präsentationen</span>
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span>Logo- und Produktdesign</span>
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span>Druckvorstufe &amp; Reinzeichnung</span>
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span
+                  >Konzeption und Erstellung digitaler Inhalte für digitale
+                  Kanäle und Social Media</span
+                >
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span>Animierte Info- und Unterweisungsvideos (Vyond)</span>
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span
+                  >Konzeption und Umsetzung interaktiver Webtools für
+                  Marketingzwecke und direkte Leadgenerierung</span
+                >
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span
+                  >CMS Contao – Pflege, Weiterentwicklung und technische
+                  Umsetzung von Marketingkampagnen in Zusammenarbeit mit SEO-
+                  und SEA-Experten</span
+                >
+              </div>
+              <div class="orbit-line">
+                <span class="orbit-bullet">▸</span
+                ><span
+                  >Digitalisierung analoger Prozesse in browserbasierte
+                  Lösungen</span
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="werdegang-mobile" id="werdegangMobile"></div>
     </div>
 
     <!-- ARBEITSPROBEN -->
@@ -598,6 +648,282 @@
       <strong>Amir Mehrasebi</strong> &nbsp;·&nbsp; Mediengestalter · Marketing
       · Design &nbsp;·&nbsp; © 2026
     </footer>
+
+    <!-- SCROLL TO TOP -->
+    <button class="scroll-top" id="scrollTop" aria-label="Nach oben">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    </button>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar" id="toolbar">
+      <div class="tb-drag" id="tbDrag" title="Ziehen zum Andocken">
+        <span></span><span></span>
+      </div>
+      <button
+        class="tb-btn active"
+        data-tool="brush"
+        aria-label="Pinsel"
+        title="Pinsel"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 19l7-7 3 3-7 7-3-3z" />
+          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+        </svg>
+      </button>
+      <button
+        class="tb-btn"
+        data-tool="rect"
+        aria-label="Rechteck"
+        title="Rechteck"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+        </svg>
+      </button>
+      <button
+        class="tb-btn"
+        data-tool="text"
+        aria-label="Text"
+        title="Text-Werkzeug"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="4 7 4 4 20 4 20 7" />
+          <line x1="9.5" y1="20" x2="14.5" y2="20" />
+          <line x1="12" y1="4" x2="12" y2="20" />
+        </svg>
+      </button>
+      <button
+        class="tb-btn"
+        data-tool="eraser"
+        aria-label="Radierer"
+        title="Radierer"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 20H7L3 16l9-9 8 8-4 4z" />
+          <line x1="6" y1="11" x2="13" y2="18" />
+        </svg>
+      </button>
+      <div class="tb-divider"></div>
+      <button
+        class="tb-btn tb-color-btn"
+        data-tool="color"
+        aria-label="Farbe"
+        title="Farbe wählen"
+      >
+        <span class="tb-color-dot" id="tbColorDot"></span>
+      </button>
+      <div class="tb-color-picker" id="tbColorPicker">
+        <span
+          class="tb-cp-swatch"
+          data-color="#14b8a6"
+          style="background: #14b8a6"
+        ></span>
+        <span
+          class="tb-cp-swatch"
+          data-color="#ffffff"
+          style="background: #ffffff"
+        ></span>
+        <span
+          class="tb-cp-swatch"
+          data-color="#ef4444"
+          style="background: #ef4444"
+        ></span>
+        <span
+          class="tb-cp-swatch"
+          data-color="#eab308"
+          style="background: #eab308"
+        ></span>
+        <span
+          class="tb-cp-swatch"
+          data-color="#3b82f6"
+          style="background: #3b82f6"
+        ></span>
+        <span
+          class="tb-cp-swatch"
+          data-color="#000000"
+          style="background: #000000; border: 1px solid #555"
+        ></span>
+      </div>
+      <button
+        class="tb-btn tb-size-btn"
+        data-tool="size"
+        aria-label="Stärke"
+        title="Pinselstärke"
+      >
+        <span class="tb-size-preview" id="tbSizePreview"></span>
+      </button>
+      <div class="tb-size-picker" id="tbSizePicker">
+        <input
+          type="range"
+          id="tbSizeRange"
+          min="1"
+          max="20"
+          value="3"
+          class="tb-range"
+        />
+        <span class="tb-size-val" id="tbSizeVal">3px</span>
+      </div>
+      <div class="tb-divider"></div>
+      <button
+        class="tb-btn"
+        data-tool="undo"
+        aria-label="Rückgängig"
+        title="Rückgängig (Ctrl+Z)"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="1 4 1 10 7 10" />
+          <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+        </svg>
+      </button>
+      <button
+        class="tb-btn"
+        data-tool="clear"
+        aria-label="Löschen"
+        title="Alles löschen"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+          <path d="M10 11v6" />
+          <path d="M14 11v6" />
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </svg>
+      </button>
+      <div class="tb-divider"></div>
+      <button
+        class="tb-btn"
+        data-tool="terminal"
+        aria-label="Terminal"
+        title="Terminal"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="4 17 10 11 4 5" />
+          <line x1="12" y1="19" x2="20" y2="19" />
+        </svg>
+      </button>
+      <button
+        class="tb-btn"
+        data-tool="pipette"
+        aria-label="Dark/Light Mode"
+        title="Dark/Light Mode"
+      >
+        <svg class="tb-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="tb-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <button
+        class="tb-btn"
+        data-tool="search"
+        aria-label="Suche"
+        title="Suche"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- DRAW CANVAS -->
+    <canvas id="drawCanvas"></canvas>
+
+    <!-- TERMINAL -->
+    <div class="terminal-overlay" id="terminalOverlay">
+      <div class="terminal-window">
+        <div class="terminal-bar">
+          <span class="terminal-dots"><i></i><i></i><i></i></span>
+          <span class="terminal-title">amir@portfolio:~</span>
+          <button class="terminal-close" id="terminalClose">✕</button>
+        </div>
+        <div class="terminal-body" id="terminalBody">
+          <div class="terminal-line">
+            Willkommen! Tippe <span style="color: var(--accent)">help</span> für
+            Befehle.
+          </div>
+        </div>
+        <div class="terminal-input-wrap">
+          <span class="terminal-prompt">$</span>
+          <input
+            type="text"
+            class="terminal-input"
+            id="terminalInput"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+    </div>
 
     <!-- IMAGE MODAL -->
     <div class="img-modal" id="imgModal">
