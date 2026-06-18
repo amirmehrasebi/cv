@@ -946,7 +946,26 @@ body {
     height: 230px;
   }
 
-  /* 4 — STORY FOTOS */
+  /* 4 — STORY — statisch gestapelt statt sticky-animiert */
+  .story-outer {
+    height: auto;
+  }
+  .story-sticky {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 4rem 1.5rem;
+  }
+  .story-phase {
+    position: relative;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .story-bg-glow {
+    display: none;
+  }
   .phase2-photos {
     gap: 0.5rem;
   }
@@ -973,20 +992,28 @@ body {
     padding: 3rem 1.5rem;
   }
 
-  /* 6 — WERDEGANG */
+  /* 6 — WERDEGANG — Desktop-Animation verstecken, Mobile-Steps zeigen */
   .imgseq-outer {
     height: auto;
   }
   .imgseq-sticky {
     position: relative;
     height: auto;
+    display: block;
+  }
+  .imgseq-visual,
+  .imgseq-orbit {
+    display: none;
   }
   .imgseq-content {
-    padding: 2rem 1rem;
-    gap: 1.5rem;
+    display: block;
+    padding: 3rem 1.5rem 1rem;
   }
-  .orbit-period-desc {
-    font-size: 0.82rem;
+  .werdegang-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 0 1.5rem 3rem;
   }
 
   /* 7 — PORTFOLIO */
@@ -1003,6 +1030,47 @@ body {
     width: 100%;
     justify-content: center;
   }
+}
+
+/* ── WERDEGANG MOBILE STEPS ── */
+.werdegang-mobile {
+  display: none;
+}
+.wg-mobile-step {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.5rem;
+}
+.wg-mobile-year {
+  font-size: clamp(2.5rem, 10vw, 3.5rem);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.wg-mobile-period {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+.wg-mobile-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+.wg-mobile-title {
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+.wg-mobile-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
 }
 
 /* ── GENERAL SECTION ── */
