@@ -6,19 +6,6 @@ lenis.on("scroll", ScrollTrigger.update);
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
-// ── HASH SCROLL NACH GSAP-SETUP ──
-if (window.location.hash) {
-  const hashTarget = window.location.hash;
-  history.replaceState(null, "", window.location.pathname);
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      const el = document.querySelector(hashTarget);
-      if (el) {
-        lenis.scrollTo(el, { offset: 0, duration: 1.2, immediate: false });
-      }
-    }, 600);
-  });
-}
 
 // ── NAV ──
 window.addEventListener("scroll", () => {
@@ -372,3 +359,19 @@ imgModal.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
 });
+
+// ── DEEP LINK (Hash oder ?to=) ──
+(function handleDeepLink() {
+  const target =
+    window.location.hash.slice(1) ||
+    new URLSearchParams(window.location.search).get("to");
+  if (!target) return;
+  history.replaceState(null, "", window.location.pathname);
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+      const el = document.getElementById(target);
+      if (el) window.scrollTo({ top: el.offsetTop, behavior: "smooth" });
+    }, 1000);
+  });
+})();
