@@ -18,7 +18,6 @@
     />
   </head>
   <body>
-    <!-- NAV -->
     <nav class="nav" id="nav">
       <div class="nav-inner">
         <a href="#hero" class="nav-brand">Amir's <span>Portfolio</span></a>
@@ -35,7 +34,6 @@
           <a href="#kontakt">Kontakt</a>
         </div>
       </div>
-      <!-- SEARCH OVERLAY (gesteuert über Toolbar) -->
       <div class="search-overlay" id="searchOverlay">
         <div class="search-box">
           <input
@@ -47,10 +45,11 @@
           <div class="search-results" id="searchResults"></div>
         </div>
       </div>
-      <div class="nav-progress"><div class="nav-progress-fill" id="navProgress"></div></div>
+      <div class="nav-progress">
+        <div class="nav-progress-fill" id="navProgress"></div>
+      </div>
     </nav>
 
-    <!-- HERO -->
     <section class="hero" id="hero">
       <div class="hero-bg" id="heroBg"></div>
       <canvas class="hero-dots" id="heroDots"></canvas>
@@ -82,7 +81,6 @@
       </div>
     </section>
 
-    <!-- STORYTELLING STICKY -->
     <div class="story-outer" id="story">
       <div class="story-sticky">
         <div class="story-bg-glow"></div>
@@ -139,7 +137,6 @@
       </div>
     </div>
 
-    <!-- HORIZONTAL SCROLL / KOMPETENZEN DETAIL -->
     <div class="horizontal-wrap" id="hWrap">
       <div class="h-scroll-hint" id="hScrollHint">
         <span class="h-hint-arrow"
@@ -237,7 +234,6 @@
       </div>
     </div>
 
-    <!-- WERDEGANG ORBIT -->
     <div class="imgseq-outer" id="werdegang">
       <div class="imgseq-sticky">
         <div class="imgseq-content">
@@ -331,7 +327,6 @@
       <div class="werdegang-mobile" id="werdegangMobile"></div>
     </div>
 
-    <!-- ARBEITSPROBEN -->
     <section class="section" id="arbeitsproben">
       <div class="section-header reveal">
         <div class="sec-tag">05 / Arbeitsproben</div>
@@ -603,7 +598,6 @@
       </div>
     </section>
 
-    <!-- KONTAKT -->
     <section class="section" id="kontakt" style="background: var(--bg2)">
       <div class="kontakt-inner">
         <div class="sec-tag reveal">06 / Kontakt</div>
@@ -643,7 +637,6 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
       <strong>Amir Mehrasebi</strong> &nbsp;·&nbsp; Mediengestalter · Marketing
       · Design &nbsp;·&nbsp; © 2026
@@ -653,21 +646,31 @@
       </div>
     </footer>
 
-    <!-- SCROLL TO TOP -->
     <button class="scroll-top" id="scrollTop" aria-label="Nach oben">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
+      </svg>
     </button>
 
-    <!-- TOOLBAR -->
     <div class="toolbar" id="toolbar">
       <div class="tb-drag" id="tbDrag" title="Ziehen zum Andocken">
         <span></span><span></span>
       </div>
       <button
-        class="tb-btn active"
+        class="tb-btn"
         data-tool="brush"
-        aria-label="Pinsel"
-        title="Pinsel"
+        aria-label="Zeichnen"
+        title="Zeichnen"
       >
         <svg
           width="16"
@@ -675,12 +678,11 @@
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
+          stroke-width="2.5"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path d="M12 19l7-7 3 3-7 7-3-3z" />
-          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+          <path d="M3 17c3-4 7 4 10 0s4-8 8-4" />
         </svg>
       </button>
       <button
@@ -874,8 +876,40 @@
         aria-label="Dark/Light Mode"
         title="Dark/Light Mode"
       >
-        <svg class="tb-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="tb-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg
+          class="tb-icon-moon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg
+          class="tb-icon-sun"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
       </button>
       <button
         class="tb-btn"
@@ -899,10 +933,8 @@
       </button>
     </div>
 
-    <!-- DRAW CANVAS -->
     <canvas id="drawCanvas"></canvas>
 
-    <!-- TERMINAL -->
     <div class="terminal-overlay" id="terminalOverlay">
       <div class="terminal-window">
         <div class="terminal-bar">
@@ -929,7 +961,6 @@
       </div>
     </div>
 
-    <!-- IMAGE MODAL -->
     <div class="img-modal" id="imgModal">
       <div class="img-modal-panel" id="imgModalPanel">
         <button class="img-modal-close" id="imgModalClose">✕</button>
@@ -937,9 +968,7 @@
       </div>
     </div>
 
-    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <!-- GSAP 3.12.5 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
