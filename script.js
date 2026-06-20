@@ -1,11 +1,9 @@
 gsap.registerPlugin(ScrollTrigger);
 
-
 const lenis = new Lenis({ lerp: 0.12, smoothWheel: true });
 lenis.on("scroll", ScrollTrigger.update);
 gsap.ticker.add((time) => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
-
 
 const navProgressEl = document.getElementById("navProgress");
 const scrollTopBtn = document.getElementById("scrollTop");
@@ -22,14 +20,12 @@ scrollTopBtn.addEventListener("click", () => {
   lenis.scrollTo(0, { duration: 1.5 });
 });
 
-
 const burger = document.getElementById("burger");
 const navEl = document.getElementById("nav");
 burger.addEventListener("click", () => navEl.classList.toggle("nav-open"));
 document.querySelectorAll(".nav-links a").forEach((a) => {
   a.addEventListener("click", () => navEl.classList.remove("nav-open"));
 });
-
 
 (() => {
   const cv = document.getElementById("heroDots");
@@ -149,7 +145,6 @@ document.querySelectorAll(".nav-links a").forEach((a) => {
   })();
 })();
 
-
 gsap.to("#heroBg", {
   scale: 1,
   ease: "none",
@@ -160,7 +155,6 @@ gsap.to("#heroBg", {
     scrub: true,
   },
 });
-
 
 gsap.matchMedia().add("(min-width: 501px)", () => {
   gsap.to(".hero-content", {
@@ -175,7 +169,6 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
     },
   });
 });
-
 
 gsap.matchMedia().add("(min-width: 501px)", () => {
   const storyTl = gsap.timeline({
@@ -209,7 +202,6 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
     )
     .to("#phase3", { opacity: 0, y: -50, duration: 0.2 }, 0.9);
 });
-
 
 gsap.matchMedia().add("(min-width: 501px)", () => {
   ScrollTrigger.create({
@@ -258,7 +250,6 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
   });
 });
 
-
 const orbitSteps = [
   {
     year: "2026",
@@ -267,13 +258,13 @@ const orbitSteps = [
     title: "Werksarztzentrum Deutschland GmbH",
     desc: [
       "Corporate Identity & Corporate Design",
-      "Marketingmaterialien & Präsentationen",
       "Logo- und Produktdesign",
-      "Druckvorstufe & Reinzeichnung",
+      "Reinzeichnung & Druckvorstufe",
+      "Marketingmaterialien & Präsentationen",
+      "Animierte Info- und Unterweisungsvideos",
       "Konzeption und Erstellung digitaler Inhalte für digitale Kanäle und Social Media",
-      "Animierte Info- und Unterweisungsvideos (Vyond)",
       "Konzeption und Umsetzung interaktiver Webtools für Marketingzwecke und direkte Leadgenerierung",
-      "CMS Contao – Pflege, Weiterentwicklung und technische Umsetzung von Marketingkampagnen in Zusammenarbeit mit SEO- und SEA-Experten",
+      "CMS-Pflege, Weiterentwicklung und technische Umsetzung von Marketingkampagnen in Zusammenarbeit mit SEO- und SEA-Experten",
       "Digitalisierung analoger Prozesse in browserbasierte Lösungen",
     ],
   },
@@ -350,7 +341,6 @@ gsap.matchMedia().add("(min-width: 501px)", () => {
   });
 });
 
-
 function showOrbitStep(idx) {
   const step = orbitSteps[idx];
   if (!step) return;
@@ -376,7 +366,6 @@ tlDots.forEach((dot, i) => {
   dot.addEventListener("click", () => showOrbitStep(i));
 });
 
-
 document.querySelectorAll(".portfolio-card").forEach((card) => {
   card.addEventListener("mousemove", (e) => {
     const r = card.getBoundingClientRect();
@@ -388,7 +377,6 @@ document.querySelectorAll(".portfolio-card").forEach((card) => {
       .style.setProperty("--my", ((e.clientY - r.top) / r.height) * 100 + "%");
   });
 });
-
 
 document.querySelectorAll(".reveal").forEach((el, i) => {
   ScrollTrigger.create({
@@ -411,7 +399,6 @@ function toggleTheme() {
   }
   localStorage.setItem("theme", next);
 }
-
 
 const searchOverlay = document.getElementById("searchOverlay");
 const searchInput = document.getElementById("searchInput");
@@ -480,7 +467,6 @@ function renderResults(query) {
   });
 }
 
-
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
@@ -533,7 +519,6 @@ document.querySelectorAll(".pdf-card").forEach((card) => {
   });
 });
 
-
 const imgModal = document.getElementById("imgModal");
 const imgModalImg = document.getElementById("imgModalImg");
 const imgModalClose = document.getElementById("imgModalClose");
@@ -571,7 +556,6 @@ imgModal.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
 });
-
 
 const toolbarEl = document.getElementById("toolbar");
 const tbDrag = document.getElementById("tbDrag");
@@ -613,7 +597,6 @@ window.addEventListener("pointerup", (e) => {
   toolbarEl.classList.toggle("right", side === "right");
   localStorage.setItem("toolbarSide", side);
 });
-
 
 const drawCanvas = document.getElementById("drawCanvas");
 const drawCtx = drawCanvas.getContext("2d");
@@ -773,7 +756,6 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-
 function createTextBlock(x, y) {
   const el = document.createElement("div");
   el.className = "draw-text-block";
@@ -875,7 +857,6 @@ drawCanvas.addEventListener("pointerleave", () => {
   isDrawing = false;
 });
 
-
 const terminalCmds = {
   help: "Verfügbare Befehle: <span style='color:var(--accent)'>about</span>, <span style='color:var(--accent)'>skills</span>, <span style='color:var(--accent)'>contact</span>, <span style='color:var(--accent)'>experience</span>, <span style='color:var(--accent)'>clear</span>",
   about:
@@ -920,7 +901,6 @@ terminalClose.addEventListener("click", () => {
 terminalOverlay.addEventListener("click", (e) => {
   if (e.target === terminalOverlay) terminalOverlay.classList.remove("open");
 });
-
 
 (function handleDeepLink() {
   const target =
